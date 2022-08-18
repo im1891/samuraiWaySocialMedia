@@ -1,5 +1,7 @@
 import React from "react";
 import style from './Profile.module.css'
+import MyPosts from "./MyPosts/MyPosts";
+
 function Profile() {
     return (
         <div className={style.content}>
@@ -11,20 +13,7 @@ function Profile() {
             <div>
                 ava + description
             </div>
-            <div className={style.posts}>
-                My Posts
-                <div className={style.item}>
-                    New post
-                </div>
-                <div>
-                    <div className={style.item}>
-                        New post 1
-                    </div>
-                    <div>
-                        New post 2
-                    </div>
-                </div>
-            </div>
+            <MyPosts/>
         </div>
     )
 }

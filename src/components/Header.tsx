@@ -1,11 +1,12 @@
 import React from "react";
 
 function Header() {
-    return <div>
-        <a href="#">Home</a>
-        <a href="#">News feed</a>
-        <a href="#">Messages</a>
-    </div>
+    return (
+        <header className='header'>
+            <img src="https://cdn.logo.com/hotlink-ok/logo-social.png" alt="logo"/>
+        </header>
+    )
+
 }
 
 export default Header;

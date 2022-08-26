@@ -3,13 +3,19 @@
 .nav {
     grid-area: n;
     background-color: darkgrey;
+    padding: 20px;
 }
 
 
-.item {
+.item a {
+    text-decoration: none;
     color: white;
 }
 
-.active {
+
+
+
+
+.item a.active {
     color: gold;
 }

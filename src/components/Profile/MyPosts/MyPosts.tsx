@@ -4,8 +4,8 @@ import {Post} from "./Post/Post";
 
 function MyPosts() {
     return (
-        <div className={style.posts}>
-            My Posts
+        <div className={style.postsBlock}>
+            <h3>My Posts</h3>
             <div>
                 <div>
                     <textarea></textarea>
@@ -14,8 +14,9 @@ function MyPosts() {
                     <button>Add</button>
                 </div>
             </div>
-            <Post message='Hi, how are you?' likesCount={15}/>
-            <Post message={'It\'s my firs post.'} likesCount={20}/>
+            <div className={style.posts}><Post message='Hi, how are you?' likesCount={15}/>
+                <Post message={'It\'s my firs post.'} likesCount={20}/>
+            </div>
 
         </div>
     )

@@ -1,0 +1,18 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+.sideBar {
+    display: grid;
+    margin-top: 10px;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+
+}
+
+.sideBar .items {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+    grid-gap: 5px;
+}

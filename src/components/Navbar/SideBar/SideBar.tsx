@@ -1,7 +1,7 @@
 import React from "react";
 import style from "./SideBar.module.css"
-import {DialogItem} from "../Dialogs/DialogItem/DialogItem";
-import {SideBarType} from "../../Redux/state";
+import {DialogItem} from "../../Dialogs/DialogItem/DialogItem";
+import {SideBarType} from "../../../Redux/state";
 
 type SideBarPropsType = {
     state: SideBarType

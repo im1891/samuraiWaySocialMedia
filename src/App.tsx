@@ -9,11 +9,15 @@ import {Navbar} from "./components/Navbar/Navbar";
 
 type AppPropsType = {
     state: StateType
+    changeNewPostText: (postText: string) => void
+    addPost: () => void
+    changeNewMessageText: (messageText: string) => void
+    addMessage: () => void
 }
 
 export const App: React.FC<AppPropsType> = (props) => {
 
-    const {state} = props;
+    const {state, changeNewPostText, addPost, changeNewMessageText, addMessage} = props;
 
     return (
         <div className='app-wrapper'>
@@ -21,8 +25,12 @@ export const App: React.FC<AppPropsType> = (props) => {
             <Navbar state={state.sideBar}/>
             <div className='app-wrapper-content'>
                 <Routes>
-                    <Route path='/profile' element={<Profile state={state}/>}/>
-                    <Route path='/dialogs' element={<Dialogs state={state.dialogsPage}/>}/>
+                    <Route path='/profile'
+                           element={<Profile state={state.profilePage} changeNewPostText={changeNewPostText}
+                                             addPost={addPost}/>}/>
+                    <Route path='/dialogs'
+                           element={<Dialogs state={state.dialogsPage} changeNewMessageText={changeNewMessageText}
+                                             addMessage={addMessage}/>}/>
                 </Routes>
 
             </div>

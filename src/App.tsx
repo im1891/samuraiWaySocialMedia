@@ -3,34 +3,32 @@ import './App.css';
 import Header from "./components/Header/Header";
 import {Route, Routes} from "react-router-dom";
 import {Dialogs} from "./components/Dialogs/Dialogs";
-import {StateType} from "./Redux/state";
+import {StoreType} from "./Redux/store";
 import {Profile} from "./components/Profile/Profile";
 import {Navbar} from "./components/Navbar/Navbar";
 
 type AppPropsType = {
-    state: StateType
-    changeNewPostText: (postText: string) => void
-    addPost: () => void
-    changeNewMessageText: (messageText: string) => void
-    addMessage: () => void
+    store: StoreType
 }
 
 export const App: React.FC<AppPropsType> = (props) => {
 
-    const {state, changeNewPostText, addPost, changeNewMessageText, addMessage} = props;
+    const {store} = props;
 
     return (
         <div className='app-wrapper'>
             <Header/>
-            <Navbar state={state.sideBar}/>
+            <Navbar sideBar={store.getState().sideBar}/>
             <div className='app-wrapper-content'>
                 <Routes>
                     <Route path='/profile'
-                           element={<Profile state={state.profilePage} changeNewPostText={changeNewPostText}
-                                             addPost={addPost}/>}/>
+                           element={<Profile profilePage={store.getState().profilePage}
+                                             updateNewPostText={store.updateNewPostText.bind(store)}
+                                             addPost={store.addPost.bind(store)}/>}/>
                     <Route path='/dialogs'
-                           element={<Dialogs state={state.dialogsPage} changeNewMessageText={changeNewMessageText}
-                                             addMessage={addMessage}/>}/>
+                           element={<Dialogs dialogsPage={store.getState().dialogsPage}
+                                             updateNewMessageText={store.updateNewMessageText.bind(store)}
+                                             addMessage={store.addMessage.bind(store)}/>}/>
                 </Routes>
 
             </div>

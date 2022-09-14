@@ -1,29 +1,25 @@
 import React, {KeyboardEvent} from "react";
 import style from './MyPosts.module.css';
 import {Post} from "./Post/Post";
-import {ProfilePageType} from "../../../Redux/state";
+import {ProfilePageType} from "../../../Redux/store";
 
 type MyPostsPropsType = {
-    state: ProfilePageType
-    changeNewPostText: (postText: string) => void
+    profilePage: ProfilePageType
+    updateNewPostText: (postText: string) => void
     addPost: () => void
 }
 
 export const MyPosts: React.FC<MyPostsPropsType> = (props) => {
 
-    const {state, changeNewPostText, addPost} = props;
+    const {profilePage, updateNewPostText, addPost} = props;
 
-    let postsElements = state.posts.map(p => <Post message={p.message} likesCount={p.likesCount} id={p.id}/>)
+    let postsElements = profilePage.posts.map(p => <Post key={p.id} message={p.message} likesCount={p.likesCount}/>)
 
     const textAreaRef = React.createRef<HTMLTextAreaElement>();
 
-    const addPostButtonHandler = () => {
-        addPost()
-    }
-
     const changePostTextHandler = () => {
-        let postText = textAreaRef.current?.value;
-        postText && changeNewPostText(postText)
+
+        textAreaRef.current && updateNewPostText(textAreaRef.current.value)
     }
 
     const onEnterPressHandler = (e: KeyboardEvent<HTMLTextAreaElement>) => [
@@ -35,11 +31,11 @@ export const MyPosts: React.FC<MyPostsPropsType> = (props) => {
             <h3>My Posts</h3>
             <div>
                 <div>
-                    <textarea ref={textAreaRef} value={state.postMessage} onChange={changePostTextHandler}
+                    <textarea ref={textAreaRef} value={profilePage.postMessage} onChange={changePostTextHandler}
                               onKeyPress={onEnterPressHandler}></textarea>
                 </div>
                 <div>
-                    <button onClick={addPostButtonHandler}>Add</button>
+                    <button onClick={addPost}>Add</button>
                 </div>
             </div>
             <div className={style.posts}>

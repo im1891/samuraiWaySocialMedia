@@ -1,14 +1,16 @@
 import React from "react";
 import style from "../Dialogs.module.css";
-import {MessageType} from "../../../Redux/state";
 
+type MessagPropsType = {
+    message: string
+}
 
-export const Message: React.FC<MessageType> = (props) => {
+export const Message: React.FC<MessagPropsType> = (props) => {
 
-    const {message, id} = props;
+    const {message} = props;
 
     return (
-        <div key={id} className={style.message}>
+        <div className={style.message}>
             {message}
         </div>
     )

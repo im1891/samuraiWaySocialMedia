@@ -2,15 +2,15 @@ import React from "react";
 import style from './Navbar.module.css'
 import {NavLink} from "react-router-dom";
 import {SideBar} from "./SideBar/SideBar";
-import {SideBarType} from "../../Redux/state";
+import {SideBarType} from "../../Redux/store";
 
 type NavbarPropsType = {
-    state: SideBarType
+    sideBar: SideBarType
 }
 
 export const Navbar: React.FC<NavbarPropsType> = (props) => {
 
-    const {state} = props;
+    const {sideBar} = props;
 
     return (
         <nav className={style.nav}>
@@ -33,7 +33,7 @@ export const Navbar: React.FC<NavbarPropsType> = (props) => {
             </div>
 
             <div>
-                <SideBar state={state}/>
+                <SideBar sideBar={sideBar}/>
             </div>
 
         </nav>

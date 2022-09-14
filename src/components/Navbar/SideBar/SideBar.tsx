@@ -1,17 +1,17 @@
 import React from "react";
 import style from "./SideBar.module.css"
 import {DialogItem} from "../../Dialogs/DialogItem/DialogItem";
-import {SideBarType} from "../../../Redux/state";
+import {SideBarType} from "../../../Redux/store";
 
 type SideBarPropsType = {
-    state: SideBarType
+    sideBar: SideBarType
 }
 
 export const SideBar: React.FC<SideBarPropsType> = (props) => {
 
-    const {state} = props;
+    const {sideBar} = props;
 
-    let dialogsElements = state.dialogs.map(d => <DialogItem name={d.name} id={d.id} avatar={d.avatar}/>)
+    let dialogsElements = sideBar.dialogs.map(d => <DialogItem name={d.name} id={d.id} avatar={d.avatar}/>)
 
     return (
         <div className={style.sideBar}>

@@ -1,29 +1,26 @@
 import React, {KeyboardEvent, useRef} from "react";
 import style from './MyPosts.module.css';
 import {Post} from "./Post/Post";
-import {ProfilePageType} from "../../../Redux/store";
-import {
-    addPostActionCreator,
-    PostsActionCreatorsTypes,
-    updateNewPostTextActionCreator
-} from "../../../Redux/profilePage-reducer";
+import {PostType} from "../../../Redux/profilePage-reducer";
 
 type MyPostsPropsType = {
-    profilePage: ProfilePageType
-    dispatch: (action: PostsActionCreatorsTypes) => void
+    posts: PostType[]
+    postMessage: string
+    updateNewPostText: (postText: string) => void
+    addPost: () => void
 }
 
 export const MyPosts: React.FC<MyPostsPropsType> = (props) => {
 
-    const {profilePage, dispatch} = props;
+    const {posts, postMessage, updateNewPostText, addPost} = props;
 
-    let postsElements = profilePage.posts.map(p => <Post key={p.id} message={p.message} likesCount={p.likesCount}/>)
+    let postsElements = posts.map(p => <Post key={p.id} message={p.message} likesCount={p.likesCount}/>)
 
     const textAreaRef = useRef<HTMLTextAreaElement>(null)
 
     const changePostTextHandler = () => {
 
-        textAreaRef.current && dispatch(updateNewPostTextActionCreator(textAreaRef.current.value))
+        textAreaRef.current && updateNewPostText(textAreaRef.current.value)
     }
 
     const onEnterPressHandler = (e: KeyboardEvent<HTMLTextAreaElement>) => [
@@ -31,14 +28,14 @@ export const MyPosts: React.FC<MyPostsPropsType> = (props) => {
     ]
 
     const addPostHandler = () => {
-        dispatch(addPostActionCreator())
+        addPost()
     }
     return (
         <div className={style.postsBlock}>
             <h3>My Posts</h3>
             <div>
                 <div>
-                    <textarea ref={textAreaRef} value={profilePage.postMessage} onChange={changePostTextHandler}
+                    <textarea ref={textAreaRef} value={postMessage} onChange={changePostTextHandler}
                               onKeyPress={onEnterPressHandler}></textarea>
                 </div>
                 <div>

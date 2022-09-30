@@ -2,21 +2,21 @@ import React from 'react';
 import './App.css';
 import Header from "./components/Header/Header";
 import {Route, Routes} from "react-router-dom";
-import {Dialogs} from "./components/Dialogs/Dialogs";
-import {StoreType} from "./Redux/store";
+
 import {Profile} from "./components/Profile/Profile";
 import {Navbar} from "./components/Navbar/Navbar";
-import {PostsActionCreatorsTypes} from "./Redux/profilePage-reducer";
-import {MessagesActionCreatorsTypes} from "./Redux/dialogsPage-reducer";
+
+import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
+import {StoreType} from "./Redux/redux-store";
+
 
 type AppPropsType = {
     store: StoreType
-    dispatch: (action: PostsActionCreatorsTypes | MessagesActionCreatorsTypes) => void
 }
 
 export const App: React.FC<AppPropsType> = (props) => {
 
-    const {store, dispatch} = props;
+    const {store} = props;
 
     return (
         <div className='app-wrapper'>
@@ -25,9 +25,9 @@ export const App: React.FC<AppPropsType> = (props) => {
             <div className='app-wrapper-content'>
                 <Routes>
                     <Route path='/profile'
-                           element={<Profile profilePage={store.getState().profilePage} dispatch={dispatch}/>}/>
+                           element={<Profile/>}/>
                     <Route path='/dialogs'
-                           element={<Dialogs dialogsPage={store.getState().dialogsPage} dispatch={dispatch}/>}/>
+                           element={<DialogsContainer/>}/>
                 </Routes>
 
             </div>

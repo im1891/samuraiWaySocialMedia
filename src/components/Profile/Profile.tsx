@@ -1,22 +1,15 @@
 import React from "react";
-import {ProfilePageType} from "../../Redux/store";
-import {MyPosts} from "./MyPosts/MyPosts";
+
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
-import {PostsActionCreatorsTypes} from "../../Redux/profilePage-reducer";
+import {MyPostsContainer} from "./MyPosts/MyPostsContainer";
 
-type ProfilePropsType = {
-    profilePage: ProfilePageType
-    dispatch: (action: PostsActionCreatorsTypes) => void
-}
 
-export const Profile: React.FC<ProfilePropsType> = (props) => {
-
-    const {profilePage, dispatch} = props;
+export const Profile = () => {
 
     return (
         <div>
             <ProfileInfo/>
-            <MyPosts profilePage={profilePage} dispatch={dispatch}/>
+            <MyPostsContainer/>
         </div>
     )
 }

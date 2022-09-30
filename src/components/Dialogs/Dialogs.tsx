@@ -2,30 +2,28 @@ import React, {ChangeEvent, KeyboardEvent} from "react";
 import style from './Dialogs.module.css';
 import {Message} from "./Message/Message";
 import {DialogItem} from "./DialogItem/DialogItem";
-import {DialogsPageType} from "../../Redux/store";
-import {
-    addMessageActionCreator,
-    MessagesActionCreatorsTypes,
-    updateNewMessageTextActionCreator
-} from "../../Redux/dialogsPage-reducer";
+import {DialogType, MessageType} from "../../Redux/dialogsPage-reducer";
 
 type DialogsPropsType = {
-    dialogsPage: DialogsPageType
-    dispatch: (action: MessagesActionCreatorsTypes) => void
+    dialogs: DialogType[]
+    messages: MessageType[]
+    messageText: string
+    updateNewMessageText: (messageText: string) => void
+    addMessage: () => void
 }
 
 export const Dialogs: React.FC<DialogsPropsType> = (props) => {
 
-    const {dialogsPage, dispatch} = props;
+    const {dialogs, messages, messageText, updateNewMessageText, addMessage} = props;
 
-    let dialogsElements = dialogsPage.dialogs.map(d => <DialogItem key={d.id} name={d.name} id={d.id}
-                                                                   avatar={d.avatar}/>)
+    let dialogsElements = dialogs.map(d => <DialogItem key={d.id} name={d.name} id={d.id}
+                                                       avatar={d.avatar}/>)
 
-    let messagesElements = dialogsPage.messages.map(m => <Message key={m.id} message={m.message}/>)
+    let messagesElements = messages.map(m => <Message key={m.id} message={m.message}/>)
 
     const changeMessageTextHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
         let messageText = e.currentTarget.value
-        dispatch(updateNewMessageTextActionCreator(messageText))
+        updateNewMessageText(messageText)
     }
 
     const onEnterPressHandler = (e: KeyboardEvent<HTMLTextAreaElement>) => {
@@ -33,7 +31,7 @@ export const Dialogs: React.FC<DialogsPropsType> = (props) => {
     }
 
     const addMessageHandler = () => {
-        dispatch(addMessageActionCreator())
+        addMessage()
     }
 
     return (
@@ -49,7 +47,7 @@ export const Dialogs: React.FC<DialogsPropsType> = (props) => {
                     <textarea
 
                         onChange={changeMessageTextHandler}
-                        value={dialogsPage.messageText}
+                        value={messageText}
                         onKeyPress={onEnterPressHandler}>
 
                     </textarea>

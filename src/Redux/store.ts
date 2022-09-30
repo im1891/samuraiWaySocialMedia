@@ -1,6 +1,7 @@
 import {v1} from "uuid";
-import {dialogsPageReducer, MessagesActionCreatorsTypes} from "./dialogsPage-reducer";
-import {PostsActionCreatorsTypes, profilePageReducer} from "./profilePage-reducer";
+import {dialogsPageReducer, dialogsPageReducerACTypes} from "./dialogsPage-reducer";
+import {profilePageReducerACTypes, profilePageReducer} from "./profilePage-reducer";
+import {sideBarReducer} from "./sideBar-reducer";
 
 
 export type MessageType = {
@@ -148,7 +149,7 @@ export type StoreType = {
     _callSubscriber: (store: StoreType) => void
     subscribe: (observer: (store: StoreType) => void) => void
     getState: () => StateType
-    dispatch: (action: MessagesActionCreatorsTypes | PostsActionCreatorsTypes) => void
+    dispatch: (action: dialogsPageReducerACTypes | profilePageReducerACTypes) => void
 }
 
 export let store: StoreType = {
@@ -235,6 +236,7 @@ export let store: StoreType = {
     dispatch(action) {
         this._state.profilePage = profilePageReducer(this._state.profilePage, action)
         this._state.dialogsPage = dialogsPageReducer(this._state.dialogsPage, action)
+        this._state.sideBar = sideBarReducer(this._state.sideBar, action)
 
         this._callSubscriber(this)
     }

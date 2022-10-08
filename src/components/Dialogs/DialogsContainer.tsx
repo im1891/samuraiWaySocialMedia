@@ -1,8 +1,18 @@
-import {Dialogs} from "./Dialogs";
 import React from "react";
-import {addMessageActionCreator, updateNewMessageTextActionCreator} from "../../Redux/dialogsPage-reducer";
-import {StoreContext} from "../../StoreContext";
+import {
+    addMessageActionCreator,
+    dialogsPageReducerACTypes,
+    DialogsPageType,
+    updateNewMessageTextActionCreator
+} from "../../Redux/dialogsPage-reducer";
 
+
+import {AppStateType} from "../../Redux/redux-store";
+import {Dispatch} from "redux";
+import {connect} from "react-redux";
+import {Dialogs} from "./Dialogs";
+
+/*
 
 export const DialogsContainer = () => {
 
@@ -26,3 +36,39 @@ export const DialogsContainer = () => {
         }
     </StoreContext.Consumer>
 }
+
+*/
+
+
+type MapStatePropsType = DialogsPageType
+type MapDispatchPropsType = {
+    updateNewMessageText: (messageText: string) => void
+    addMessage: () => void
+}
+
+export type DialogsPropsType = MapDispatchPropsType & MapStatePropsType
+// в state передаем весь state, а не отдельную ветку
+const mapStateToProps = (state: AppStateType): MapStatePropsType => {
+
+    return {
+        messages: state.dialogsPage.messages,
+        dialogs: state.dialogsPage.dialogs,
+        messageText: state.dialogsPage.messageText
+    }
+}
+
+
+const mapDispatchToProps = (dispatch: Dispatch<dialogsPageReducerACTypes>): MapDispatchPropsType => {
+
+    return {
+        updateNewMessageText: (messageText: string) => {
+            dispatch(updateNewMessageTextActionCreator(messageText))
+        },
+        addMessage: () => {
+            dispatch(addMessageActionCreator())
+        },
+
+    }
+}
+
+export const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs)

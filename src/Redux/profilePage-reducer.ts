@@ -1,7 +1,7 @@
 import {v1} from "uuid";
 import {dialogsPageReducerACTypes} from "./dialogsPage-reducer";
 
-export type profilePageReducerACTypes =
+export type ProfilePageReducerACTypes =
     ReturnType<typeof addPostActionCreator>
     | ReturnType<typeof updateNewPostTextActionCreator>
 
@@ -26,7 +26,7 @@ let initialState: ProfilePageType = {
     ],
     postMessage: ''
 }
-export const profilePageReducer = (state: ProfilePageType = initialState, action: profilePageReducerACTypes | dialogsPageReducerACTypes) => {
+export const profilePageReducer = (state: ProfilePageType = initialState, action: ProfilePageReducerACTypes | dialogsPageReducerACTypes): ProfilePageType => {
     switch (action.type) {
         case ADD_POST:
             let newPost: PostType = {id: v1(), message: state.postMessage, likesCount: 0}
@@ -50,3 +50,6 @@ export const updateNewPostTextActionCreator = (postText: string) => ({
     type: UPDATE_NEW_POST_TEXT,
     postText
 } as const)
+
+
+

@@ -1,36 +1,36 @@
 import {v1} from "uuid";
 import {dialogsPageReducer, dialogsPageReducerACTypes} from "./dialogsPage-reducer";
-import {profilePageReducerACTypes, profilePageReducer} from "./profilePage-reducer";
+import {ProfilePageReducerACTypes, profilePageReducer} from "./profilePage-reducer";
 import {sideBarReducer} from "./sideBar-reducer";
 
 
-export type MessageType = {
+type MessageType = {
     id: string
     message: string
 }
-export type DialogType = {
+type DialogType = {
     id: string
     name: string
-    avatar: string
+    photoURL: string
 }
-export type DialogsPageType = {
+type DialogsPageType = {
     dialogs: DialogType[]
     messages: MessageType[]
     messageText: string
 }
-export type PostType = {
+type PostType = {
     id: string
     message: string
     likesCount: number
 }
-export type ProfilePageType = {
+type ProfilePageType = {
     posts: PostType[]
     postMessage: string
 }
-export type SideBarType = {
+type SideBarType = {
     dialogs: DialogType[]
 }
-export type StateType = {
+type StateType = {
     dialogsPage: DialogsPageType
     profilePage: ProfilePageType
     sideBar: SideBarType
@@ -144,15 +144,15 @@ export const addMessage = () => {
     rerenderEntireTree(state)
 
 }*/
-export type StoreType = {
+type StoreType = {
     _state: StateType
     _callSubscriber: (store: StoreType) => void
     subscribe: (observer: (store: StoreType) => void) => void
     getState: () => StateType
-    dispatch: (action: dialogsPageReducerACTypes | profilePageReducerACTypes) => void
+    dispatch: (action: dialogsPageReducerACTypes | ProfilePageReducerACTypes) => void
 }
 
-export let store: StoreType = {
+let store: StoreType = {
     _state: {
         dialogsPage: {
             dialogs: [
@@ -160,27 +160,27 @@ export let store: StoreType = {
                 {
                     id: v1(),
                     name: 'Dimych',
-                    avatar: 'https://www.meme-arsenal.com/memes/a857391da22dc0c69390c57198468d8a.jpg'
+                    photoURL: 'https://www.meme-arsenal.com/memes/a857391da22dc0c69390c57198468d8a.jpg'
                 },
                 {
                     id: v1(),
                     name: 'Sasha',
-                    avatar: 'https://www.meme-arsenal.com/memes/a857391da22dc0c69390c57198468d8a.jpg'
+                    photoURL: 'https://www.meme-arsenal.com/memes/a857391da22dc0c69390c57198468d8a.jpg'
                 },
                 {
                     id: v1(),
                     name: 'Viktor',
-                    avatar: 'https://www.meme-arsenal.com/memes/a857391da22dc0c69390c57198468d8a.jpg'
+                    photoURL: 'https://www.meme-arsenal.com/memes/a857391da22dc0c69390c57198468d8a.jpg'
                 },
                 {
                     id: v1(),
                     name: 'Sveta',
-                    avatar: 'https://www.meme-arsenal.com/memes/a857391da22dc0c69390c57198468d8a.jpg'
+                    photoURL: 'https://www.meme-arsenal.com/memes/a857391da22dc0c69390c57198468d8a.jpg'
                 },
                 {
                     id: v1(),
                     name: 'Valera',
-                    avatar: 'https://www.meme-arsenal.com/memes/a857391da22dc0c69390c57198468d8a.jpg'
+                    photoURL: 'https://www.meme-arsenal.com/memes/a857391da22dc0c69390c57198468d8a.jpg'
                 },
             ],
             messages: [
@@ -206,17 +206,17 @@ export let store: StoreType = {
                 {
                     id: v1(),
                     name: 'Dimych',
-                    avatar: 'https://www.meme-arsenal.com/memes/a857391da22dc0c69390c57198468d8a.jpg'
+                    photoURL: 'https://www.meme-arsenal.com/memes/a857391da22dc0c69390c57198468d8a.jpg'
                 },
                 {
                     id: v1(),
                     name: 'Sasha',
-                    avatar: 'https://www.meme-arsenal.com/memes/a857391da22dc0c69390c57198468d8a.jpg'
+                    photoURL: 'https://www.meme-arsenal.com/memes/a857391da22dc0c69390c57198468d8a.jpg'
                 },
                 {
                     id: v1(),
                     name: 'Viktor',
-                    avatar: 'https://www.meme-arsenal.com/memes/a857391da22dc0c69390c57198468d8a.jpg'
+                    photoURL: 'https://www.meme-arsenal.com/memes/a857391da22dc0c69390c57198468d8a.jpg'
                 },
             ]
         }

@@ -1,16 +1,10 @@
 import React, {KeyboardEvent, useRef} from "react";
 import style from './MyPosts.module.css';
 import {Post} from "./Post/Post";
-import {PostType} from "../../../Redux/profilePage-reducer";
+import {MyPotsPropsType} from "./MyPostsContainer";
 
-type MyPostsPropsType = {
-    posts: PostType[]
-    postMessage: string
-    updateNewPostText: (postText: string) => void
-    addPost: () => void
-}
 
-export const MyPosts: React.FC<MyPostsPropsType> = (props) => {
+export const MyPosts: React.FC<MyPotsPropsType> = (props) => {
 
     const {posts, postMessage, updateNewPostText, addPost} = props;
 

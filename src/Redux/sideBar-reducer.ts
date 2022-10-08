@@ -1,4 +1,4 @@
-import {profilePageReducerACTypes} from "./profilePage-reducer";
+import {ProfilePageReducerACTypes} from "./profilePage-reducer";
 import {dialogsPageReducerACTypes, DialogType} from "./dialogsPage-reducer";
 import {v1} from "uuid";
 
@@ -11,20 +11,20 @@ let initialState: SideBarType= {
         {
             id: v1(),
             name: 'Dimych',
-            avatar: 'https://www.meme-arsenal.com/memes/a857391da22dc0c69390c57198468d8a.jpg'
+            photoURL: 'https://www.meme-arsenal.com/memes/a857391da22dc0c69390c57198468d8a.jpg'
         },
         {
             id: v1(),
             name: 'Sasha',
-            avatar: 'https://www.meme-arsenal.com/memes/a857391da22dc0c69390c57198468d8a.jpg'
+            photoURL: 'https://www.meme-arsenal.com/memes/a857391da22dc0c69390c57198468d8a.jpg'
         },
         {
             id: v1(),
             name: 'Viktor',
-            avatar: 'https://www.meme-arsenal.com/memes/a857391da22dc0c69390c57198468d8a.jpg'
+            photoURL: 'https://www.meme-arsenal.com/memes/a857391da22dc0c69390c57198468d8a.jpg',
         },
     ]
 }
-export const sideBarReducer= (state: SideBarType = initialState, action: profilePageReducerACTypes | dialogsPageReducerACTypes) => {
+export const sideBarReducer= (state: SideBarType = initialState, action: ProfilePageReducerACTypes | dialogsPageReducerACTypes): SideBarType => {
     return state
 }

@@ -7,11 +7,11 @@ type ProviderPropsType = {
     store: StoreType,
     children: React.ReactNode
 }
-
-export const Provider: React.FC<ProviderPropsType> = (props) => {
+const Provider: React.FC<ProviderPropsType> = (props) => {
     const {store, children} = props;
 
     return <StoreContext.Provider value={store}>
         {children}
     </StoreContext.Provider>
 }
+

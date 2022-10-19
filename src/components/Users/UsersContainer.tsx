@@ -1,44 +1,49 @@
-import {connect} from "react-redux";
-import {Users} from "./Users";
+import { connect } from "react-redux";
 import {
-    followAC,
-    setUsersAC,
-    unfollowAC,
-    UsersPageReducerACTypes,
-    UsersPageType,
-    UserType
+  followAC,
+  setUsersAC,
+  unfollowAC,
+  UsersPageReducerACTypes,
+  UsersPageType,
+  UserType,
 } from "../../Redux/UsersPage-reducer";
-import {Dispatch} from "redux";
-import {AppStateType} from "../../Redux/redux-store";
+import { Dispatch } from "redux";
+import { AppStateType } from "../../Redux/redux-store";
+import { Users } from "./Users";
 
-type MapStatePropsType = UsersPageType
+type MapStatePropsType = UsersPageType;
 
 type MapDispatchPropsType = {
-    followUser: (userId: number) => void
-    unfollowUser: (userId: number) => void
-    setUsers: (users: UserType[]) => void
-}
+  followUser: (userId: number) => void;
+  unfollowUser: (userId: number) => void;
+  setUsers: (users: UserType[]) => void;
+};
 
-export type UsersPropsType = MapDispatchPropsType & MapStatePropsType
+export type UsersPropsType = MapDispatchPropsType & MapStatePropsType;
 
 const mapStateToProps = (state: AppStateType): MapStatePropsType => {
-    return {
-        users: state.usersPage.users
-    }
-}
+  return {
+    users: state.usersPage.users,
+  };
+};
 
-const mapDispatchToProps = (dispatch: Dispatch<UsersPageReducerACTypes>): MapDispatchPropsType => {
-    return {
-        followUser: (userId: number) => {
-            dispatch(followAC(userId))
-        },
-        unfollowUser: (userId: number) => {
-            dispatch(unfollowAC(userId))
-        },
-        setUsers: (users: UserType[]) => {
-            dispatch(setUsersAC(users))
-        }
-    }
-}
+const mapDispatchToProps = (
+  dispatch: Dispatch<UsersPageReducerACTypes>
+): MapDispatchPropsType => {
+  return {
+    followUser: (userId: number) => {
+      dispatch(followAC(userId));
+    },
+    unfollowUser: (userId: number) => {
+      dispatch(unfollowAC(userId));
+    },
+    setUsers: (users: UserType[]) => {
+      dispatch(setUsersAC(users));
+    },
+  };
+};
 
-export const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(Users)
+export const UsersContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Users);

@@ -1,14 +1,14 @@
-import {MyPosts} from "./MyPosts";
+import { MyPosts } from "./MyPosts";
 import React from "react";
 import {
-    addPostActionCreator,
-    ProfilePageReducerACTypes,
-    ProfilePageType,
-    updateNewPostTextActionCreator
-} from "../../../Redux/profilePage-reducer";
-import {connect} from "react-redux";
-import {AppStateType} from "../../../Redux/redux-store";
-import {Dispatch} from "redux";
+  addPostActionCreator,
+  PostType,
+  ProfilePageReducerACTypes,
+  updateNewPostTextActionCreator,
+} from "../../../reducers/profilePage-reducer";
+import { connect } from "react-redux";
+import { AppStateType } from "../../../store/redux-store";
+import { Dispatch } from "redux";
 
 /*
 export const MyPostsContainer = () => {
@@ -34,33 +34,39 @@ export const MyPostsContainer = () => {
 
 }*/
 
-type MapStatePropsType = ProfilePageType
+type MapStatePropsType = {
+  posts: PostType[];
+  postMessage: string;
+};
 
 type MapDispatchPropsType = {
-    updateNewPostText: (postText: string) => void
-    addPost: () => void
+  updateNewPostText: (postText: string) => void;
+  addPost: () => void;
+};
 
-}
-
-export type MyPotsPropsType = MapStatePropsType & MapDispatchPropsType
+export type MyPotsPropsType = MapStatePropsType & MapDispatchPropsType;
 
 const mapStateToProps = (state: AppStateType): MapStatePropsType => {
-    return {
-        posts: state.profilePage.posts,
-        postMessage: state.profilePage.postMessage
-    }
-}
+  return {
+    posts: state.profilePage.posts,
+    postMessage: state.profilePage.postMessage,
+  };
+};
 
-const mapDispatchToProps = (dispatch: Dispatch<ProfilePageReducerACTypes>): MapDispatchPropsType => {
-    return {
-        updateNewPostText: (postText) => {
-            dispatch(updateNewPostTextActionCreator(postText))
-        },
-        addPost: () => {
-            dispatch(addPostActionCreator())
-        }
-    }
-}
+const mapDispatchToProps = (
+  dispatch: Dispatch<ProfilePageReducerACTypes>
+): MapDispatchPropsType => {
+  return {
+    updateNewPostText: (postText) => {
+      dispatch(updateNewPostTextActionCreator(postText));
+    },
+    addPost: () => {
+      dispatch(addPostActionCreator());
+    },
+  };
+};
 
-
-export const MyPostsContainer = connect(mapStateToProps, mapDispatchToProps)(MyPosts)
+export const MyPostsContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MyPosts);

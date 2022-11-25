@@ -1,11 +1,11 @@
-import React from "react";
-import { UsersPropsType } from "./UsersContainer";
+/*import React from "react";
 import style from "./Users.module.css";
 import axios, { AxiosResponse } from "axios";
-import { UserType } from "../../Redux/UsersPage-reducer";
-import userPhoto from "../../assets/photo.png";
+import { UserType } from "../../reducers/usersPage-reducer";
+import userPhoto from "../../assets/photo.png";*/
 
-export const UsersFC: React.FC<UsersPropsType> = (props) => {
+/*
+export const UsersOldFC: React.FC<UsersPropsType> = (props) => {
   const { users, setUsers, unfollowUser, followUser } = props;
 
   const getUsersHandler = () => {
@@ -17,7 +17,7 @@ export const UsersFC: React.FC<UsersPropsType> = (props) => {
         });
   };
 
-  /*   [
+     [
                     {
                         id: 1,
                         photoURL: 'https://www.meme-arsenal.com/memes/a857391da22dc0c69390c57198468d8a.jpg',
@@ -49,11 +49,11 @@ export const UsersFC: React.FC<UsersPropsType> = (props) => {
                             fullName: 'Masha',
                             status: 'How you doing?',
                             location: {country: 'Poland', city: 'Warsaw'}
-                        }]*/
+                        }]
   return (
     <div className={style.users}>
       <button onClick={getUsersHandler}>Get users</button>
-      {users.map((u) => (
+      {users.map((u: UserType) => (
         <div key={u.id} className={style.user}>
           <div>
             <div>
@@ -88,3 +88,4 @@ export const UsersFC: React.FC<UsersPropsType> = (props) => {
     </div>
   );
 };
+*/

@@ -1,16 +1,15 @@
 import React from "react";
 import {
-    addMessageActionCreator,
-    dialogsPageReducerACTypes,
-    DialogsPageType,
-    updateNewMessageTextActionCreator
-} from "../../Redux/dialogsPage-reducer";
+  addMessageActionCreator,
+  dialogsPageReducerACTypes,
+  DialogsPageType,
+  updateNewMessageTextActionCreator,
+} from "../../reducers/dialogsPage-reducer";
 
-
-import {AppStateType} from "../../Redux/redux-store";
-import {Dispatch} from "redux";
-import {connect} from "react-redux";
-import {Dialogs} from "./Dialogs";
+import { AppStateType } from "../../store/redux-store";
+import { Dispatch } from "redux";
+import { connect } from "react-redux";
+import { Dialogs } from "./Dialogs";
 
 /*
 
@@ -39,36 +38,36 @@ export const DialogsContainer = () => {
 
 */
 
-
-type MapStatePropsType = DialogsPageType
+type MapStatePropsType = DialogsPageType;
 type MapDispatchPropsType = {
-    updateNewMessageText: (messageText: string) => void
-    addMessage: () => void
-}
+  updateNewMessageText: (messageText: string) => void;
+  addMessage: () => void;
+};
 
-export type DialogsPropsType = MapDispatchPropsType & MapStatePropsType
+export type DialogsPropsType = MapDispatchPropsType & MapStatePropsType;
 // в state передаем весь state, а не отдельную ветку
 const mapStateToProps = (state: AppStateType): MapStatePropsType => {
+  return {
+    messages: state.dialogsPage.messages,
+    dialogs: state.dialogsPage.dialogs,
+    messageText: state.dialogsPage.messageText,
+  };
+};
 
-    return {
-        messages: state.dialogsPage.messages,
-        dialogs: state.dialogsPage.dialogs,
-        messageText: state.dialogsPage.messageText
-    }
-}
+const mapDispatchToProps = (
+  dispatch: Dispatch<dialogsPageReducerACTypes>
+): MapDispatchPropsType => {
+  return {
+    updateNewMessageText: (messageText: string) => {
+      dispatch(updateNewMessageTextActionCreator(messageText));
+    },
+    addMessage: () => {
+      dispatch(addMessageActionCreator());
+    },
+  };
+};
 
-
-const mapDispatchToProps = (dispatch: Dispatch<dialogsPageReducerACTypes>): MapDispatchPropsType => {
-
-    return {
-        updateNewMessageText: (messageText: string) => {
-            dispatch(updateNewMessageTextActionCreator(messageText))
-        },
-        addMessage: () => {
-            dispatch(addMessageActionCreator())
-        },
-
-    }
-}
-
-export const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs)
+export const DialogsContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Dialogs);

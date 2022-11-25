@@ -18,6 +18,10 @@
     cursor: pointer;
 }
 
+.user button:active {
+    background-color: white;
+}
+
 .userInfo {
     width: 225px;
     display: flex;
@@ -36,4 +40,19 @@
     width: 65px;
     height: 60px;
     border-radius: 100%;
+}
+
+.pages {
+
+}
+
+.page {
+    display: inline-block;
+    cursor: pointer;
+    padding: 2px;
+}
+
+.selectedPage {
+    font-weight: bold;
+    border-bottom: 2px solid black;
 }

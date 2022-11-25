@@ -1,10 +1,4 @@
-import {v1} from "uuid";
-import {dialogsPageReducer, dialogsPageReducerACTypes} from "./dialogsPage-reducer";
-import {ProfilePageReducerACTypes, profilePageReducer} from "./profilePage-reducer";
-import {sideBarReducer} from "./sideBar-reducer";
-
-
-type MessageType = {
+/*type MessageType = {
     id: string
     message: string
 }
@@ -35,7 +29,7 @@ type StateType = {
     profilePage: ProfilePageType
     sideBar: SideBarType
 
-}
+}*/
 
 /*
 let rerenderEntireTree= (state: StateType) => {
@@ -144,6 +138,7 @@ export const addMessage = () => {
     rerenderEntireTree(state)
 
 }*/
+/*
 type StoreType = {
     _state: StateType
     _callSubscriber: (store: StoreType) => void
@@ -151,7 +146,9 @@ type StoreType = {
     getState: () => StateType
     dispatch: (action: dialogsPageReducerACTypes | ProfilePageReducerACTypes) => void
 }
+*/
 
+/*
 let store: StoreType = {
     _state: {
         dialogsPage: {
@@ -240,4 +237,4 @@ let store: StoreType = {
 
         this._callSubscriber(this)
     }
-}
+}*/

@@ -1,57 +1,88 @@
 import React from "react";
-import { UsersPropsType } from "./UsersContainer";
 import style from "./Users.module.css";
-import axios, { AxiosResponse } from "axios";
-import { UserType } from "../../Redux/UsersPage-reducer";
 import userPhoto from "../../assets/photo.png";
+import { UserType } from "../../reducers/usersPage-reducer";
+import { NavLink } from "react-router-dom";
 
-export class Users extends React.Component<UsersPropsType> {
-  componentDidMount() {
-    axios
-      .get<UserType[]>("https://social-network.samuraijs.com/api/1.0/users")
-      .then((response: AxiosResponse) => {
-        this.props.setUsers(response.data.items);
-      });
+type UsersPropsType = {
+  totalUsersCount: number;
+  pageSize: number;
+  currentPage: number;
+  users: UserType[];
+  onPageChangedClickHandler: (newCurrentPage: number) => void;
+  unfollowUser: (userId: number) => void;
+  followUser: (payload: { userId: number }) => void;
+};
+export const Users: React.FC<UsersPropsType> = (props) => {
+  const {
+    totalUsersCount,
+    pageSize,
+    currentPage,
+    users,
+    onPageChangedClickHandler,
+    unfollowUser,
+    followUser,
+  } = props;
+
+  let pagesCount = Math.ceil(totalUsersCount / pageSize);
+
+  let pages = [];
+
+  for (let i = 1; i <= pagesCount; i++) {
+    pages.push(i);
   }
-
-  render() {
-    return (
-      <div className={style.users}>
-        {this.props.users.map((u) => (
-          <div key={u.id} className={style.user}>
+  return (
+    <div className={style.users}>
+      <div className={style.pages}>
+        {pages.map((p) => (
+          <span
+            className={`${style.page} ${
+              currentPage === p && style.selectedPage
+            }`}
+            onClick={() => onPageChangedClickHandler(p)}
+          >
+            {p}
+          </span>
+        ))}
+      </div>
+      {users.map((u: UserType) => (
+        <div key={u.id} className={style.user}>
+          <div>
             <div>
-              <div>
+              <NavLink to={`/profile/${u.id}`}>
                 <img
                   className={style.userPhoto}
                   src={u.photos.small !== null ? u.photos.small : userPhoto}
                   alt=""
                 />
-              </div>
-              <div>
-                <button
-                  onClick={
-                    u.followed
-                      ? () => this.props.unfollowUser(u.id)
-                      : () => this.props.followUser(u.id)
-                  }
-                >
-                  {u.followed ? "Unfollow" : "Follow"}
-                </button>
-              </div>
+              </NavLink>
             </div>
-            <div className={style.userInfo}>
-              <div>
-                <div>{u.name}</div>
-                <div>{u.status}</div>
-              </div>
-              <div className={style.location}>
-                <div>{"u.location.country"}</div>
-                <div>{"u.location.city"}</div>
-              </div>
+            <div>
+              <button
+                onClick={
+                  u.followed
+                    ? () => unfollowUser(u.id)
+                    : () => followUser({ userId: u.id })
+                }
+              >
+                {u.followed ? "Unfollow" : "Follow"}
+              </button>
             </div>
           </div>
-        ))}
-      </div>
-    );
-  }
-}
+          <div className={style.userInfo}>
+            <div>
+              <div>{u.name}</div>
+              <div>{u.status}</div>
+            </div>
+            <div className={style.location}>
+              <div>{"u.location.country"}</div>
+              <div>{"u.location.city"}</div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default Users;

@@ -8,6 +8,7 @@ import { profilePageReducer } from "../reducers/profilePage-reducer";
 import { dialogsPageReducer } from "../reducers/dialogsPage-reducer";
 import { sideBarReducer } from "../reducers/sideBar-reducer";
 import { usersPageReducer } from "../reducers/usersPage-reducer";
+import { authReducer } from "../reducers/auth-reducer";
 
 /*type ActionsTypes = ProfilePageReducerACTypes | dialogsPageReducerACTypes;*/
 export type AppStateType = ReturnType<typeof rootReducer>;
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   dialogsPage: dialogsPageReducer,
   sideBar: sideBarReducer,
   usersPage: usersPageReducer,
+  authData: authReducer,
 });
 
 export const store: StoreType = createStore(rootReducer, composeEnhancers());

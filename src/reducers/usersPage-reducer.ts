@@ -9,20 +9,22 @@ const TOGGLE_IS_FETCHING = "TOGGLE-IS-FETCHING";
 
 import { UsersEvents } from "../events";
 
-type FollowACType = ReturnType<typeof followUser>;
-type UnfollowACType = ReturnType<typeof unfollowUser>;
-type SetUsersACType = ReturnType<typeof setUsers>;
-type setCurrentPageACType = ReturnType<typeof setCurrentPage>;
-type setTotalUsersCountACType = ReturnType<typeof setTotalUsersCount>;
-type toggleIsFetchingACType = ReturnType<typeof toggleIsFetching>;
+type FollowType = ReturnType<typeof followUser>;
+type UnfollowType = ReturnType<typeof unfollowUser>;
+type SetUsersType = ReturnType<typeof setUsers>;
+type setCurrentPageType = ReturnType<typeof setCurrentPage>;
+type setTotalUsersCountType = ReturnType<typeof setTotalUsersCount>;
+type toggleIsFetchingType = ReturnType<typeof toggleIsFetching>;
+type followingInProgressType = ReturnType<typeof toggleFollowingInProgress>;
 
 export type UsersPageReducerACTypes =
-  | FollowACType
-  | UnfollowACType
-  | SetUsersACType
-  | setCurrentPageACType
-  | setTotalUsersCountACType
-  | toggleIsFetchingACType;
+  | FollowType
+  | UnfollowType
+  | SetUsersType
+  | setCurrentPageType
+  | setTotalUsersCountType
+  | toggleIsFetchingType
+  | followingInProgressType;
 
 export type UserType = {
   name: string;
@@ -42,6 +44,7 @@ export type UsersPageType = {
   totalUsersCount: number;
   currentPage: number;
   isFetching: boolean;
+  followingInProgress: number[];
 };
 
 let initialState: UsersPageType = {
@@ -49,7 +52,8 @@ let initialState: UsersPageType = {
   pageSize: 5,
   totalUsersCount: 100,
   currentPage: 1,
-  isFetching: true,
+  isFetching: false,
+  followingInProgress: [],
 };
 
 export const usersPageReducer = (
@@ -87,6 +91,16 @@ export const usersPageReducer = (
     }
     case UsersEvents.TOGGLE_IS_FETCHING: {
       return { ...state, isFetching: action.payload.isFetching };
+    }
+    case UsersEvents.TOGGLE_FOLLOWING_PROGRESS: {
+      return {
+        ...state,
+        followingInProgress: action.payload.status
+          ? [...state.followingInProgress, action.payload.userId]
+          : state.followingInProgress.filter(
+              (id) => id !== action.payload.userId
+            ),
+      };
     }
     default:
       return state;
@@ -152,3 +166,12 @@ export const toggleIsFetching = (isFetching: boolean) => {
     },
   } as const;
 };
+
+export const toggleFollowingInProgress = (status: boolean, userId: number) =>
+  ({
+    type: UsersEvents.TOGGLE_FOLLOWING_PROGRESS,
+    payload: {
+      status,
+      userId,
+    },
+  } as const);

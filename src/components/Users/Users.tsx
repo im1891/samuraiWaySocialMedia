@@ -3,15 +3,18 @@ import style from "./Users.module.css";
 import userPhoto from "../../assets/photo.png";
 import { UserType } from "../../reducers/usersPage-reducer";
 import { NavLink } from "react-router-dom";
+import { axiosAPI } from "../../api/api";
 
 type UsersPropsType = {
   totalUsersCount: number;
   pageSize: number;
   currentPage: number;
   users: UserType[];
+  followingInProgress: number[];
   onPageChangedClickHandler: (newCurrentPage: number) => void;
   unfollowUser: (userId: number) => void;
   followUser: (payload: { userId: number }) => void;
+  toggleFollowingInProgress: (status: boolean, userId: number) => void;
 };
 export const Users: React.FC<UsersPropsType> = (props) => {
   const {
@@ -19,9 +22,11 @@ export const Users: React.FC<UsersPropsType> = (props) => {
     pageSize,
     currentPage,
     users,
+    followingInProgress,
     onPageChangedClickHandler,
     unfollowUser,
     followUser,
+    toggleFollowingInProgress,
   } = props;
 
   let pagesCount = Math.ceil(totalUsersCount / pageSize);
@@ -61,9 +66,22 @@ export const Users: React.FC<UsersPropsType> = (props) => {
               <button
                 onClick={
                   u.followed
-                    ? () => unfollowUser(u.id)
-                    : () => followUser({ userId: u.id })
+                    ? () => {
+                        toggleFollowingInProgress(true, u.id);
+                        axiosAPI.unfollowUser(u.id).then((data) => {
+                          toggleFollowingInProgress(false, u.id);
+                          data.resultCode == 0 && unfollowUser(u.id);
+                        });
+                      }
+                    : () => {
+                        toggleFollowingInProgress(true, u.id);
+                        axiosAPI.followUser(u.id).then((data) => {
+                          toggleFollowingInProgress(false, u.id);
+                          data.resultCode == 0 && followUser({ userId: u.id });
+                        });
+                      }
                 }
+                disabled={followingInProgress.some((id) => id === u.id)}
               >
                 {u.followed ? "Unfollow" : "Follow"}
               </button>

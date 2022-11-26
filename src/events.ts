@@ -5,6 +5,7 @@ export enum UsersEvents {
   SET_CURRENT_PAGE = `SET-CURRENT-PAGE`,
   SET_TOTAL_USERS_COUNT = "SET-TOTAL-USERS-COUNT",
   TOGGLE_IS_FETCHING = "TOGGLE-IS-FETCHING",
+  TOGGLE_FOLLOWING_PROGRESS = "TOGGLE-FOLLOWING-PROGRESS",
 }
 
 export enum ProfileEvents {
@@ -16,4 +17,8 @@ export enum ProfileEvents {
 export enum DialogsEvents {
   ADD_MESSAGE = "ADD-MESSAGE",
   UPDATE_NEW_MEESSAGE_TEXT = "UPDATE-NEW-MESSAGE-TEXT",
+}
+
+export enum AuthEvents {
+  SET_USER_DATA = "SET-USER-DATA",
 }

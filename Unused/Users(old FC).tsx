@@ -1,10 +1,10 @@
-/*import React from "react";
+import React from "react";
 import style from "./Users.module.css";
 import axios, { AxiosResponse } from "axios";
 import { UserType } from "../../reducers/usersPage-reducer";
 import userPhoto from "../../assets/photo.png";*/
 
-/*
+
 export const UsersOldFC: React.FC<UsersPropsType> = (props) => {
   const { users, setUsers, unfollowUser, followUser } = props;
 
@@ -88,4 +88,4 @@ export const UsersOldFC: React.FC<UsersPropsType> = (props) => {
     </div>
   );
 };
-*/
+

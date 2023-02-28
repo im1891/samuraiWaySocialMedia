@@ -3,6 +3,28 @@ import { UserType } from "../reducers/usersPage-reducer";
 import { UserProfileType } from "../reducers/profilePage-reducer";
 import { UserDataType } from "../reducers/auth-reducer";
 
+type UsersResponseType = {
+  error: null | string;
+  items: UserType[];
+  totalCount: number;
+};
+
+type UserProfileResponseType = UserProfileType;
+
+type AuthUserDataResponseType = {
+  data: UserDataType;
+  fieldsErrors: string[];
+  messages: string[];
+  resultCode: number;
+};
+
+type FollowUnfollowUserResponseType = {
+  resultCode: number;
+  messages: string[];
+  data: {};
+  fieldsErrors: string[];
+};
+
 const axiosInstance = axios.create({
   baseURL: "https://social-network.samuraijs.com/api/1.0/",
   withCredentials: true,
@@ -10,35 +32,45 @@ const axiosInstance = axios.create({
     ["API-KEY"]: "d41e81cd-2baa-482e-9c85-698794de0f64",
   },
 });
-
-export const axiosAPI = {
+export const usersAPI = {
   getUsers: (currentPage: number = 1, pageSize: number = 5) => {
     return axiosInstance
-      .get<UserType[]>(`users?page=${currentPage}&count=${pageSize}`)
-      .then((response: AxiosResponse) => response.data);
+      .get<UsersResponseType>(`users?page=${currentPage}&count=${pageSize}`)
+      .then((response: AxiosResponse<UsersResponseType>) => response.data);
   },
 
   getUserProfile: (userId: string) => {
     return axiosInstance
-      .get<UserProfileType>(`profile/${userId}`)
-      .then((response) => response.data);
-  },
-
-  getAuthUserData: () => {
-    return axiosInstance
-      .get<UserDataType>("auth/me")
-      .then((response: AxiosResponse) => response.data);
+      .get<UserProfileResponseType>(`profile/${userId}`)
+      .then(
+        (response: AxiosResponse<UserProfileResponseType>) => response.data
+      );
   },
 
   followUser: (userId: number) => {
     return axiosInstance
-      .post(`follow/${userId}`)
-      .then((response: AxiosResponse) => response.data);
+      .post<FollowUnfollowUserResponseType>(`follow/${userId}`)
+      .then((response: AxiosResponse<FollowUnfollowUserResponseType>) => {
+        return response.data;
+      });
   },
 
   unfollowUser: (userId: number) => {
     return axiosInstance
-      .delete(`follow/${userId}`)
-      .then((response: AxiosResponse) => response.data);
+      .delete<FollowUnfollowUserResponseType>(`follow/${userId}`)
+      .then(
+        (response: AxiosResponse<FollowUnfollowUserResponseType>) =>
+          response.data
+      );
+  },
+};
+
+export const authAPI = {
+  me: () => {
+    return axiosInstance
+      .get<AuthUserDataResponseType>("auth/me")
+      .then(
+        (response: AxiosResponse<AuthUserDataResponseType>) => response.data
+      );
   },
 };

@@ -1,19 +1,15 @@
 import { connect } from "react-redux";
 import {
-  toggleFollowingInProgress,
-  followUser,
+  follow,
+  getUsers,
   setCurrentPage,
-  setTotalUsersCount,
-  setUsers,
-  toggleIsFetching,
-  unfollowUser,
+  unfollow,
   UserType,
 } from "../../reducers/usersPage-reducer";
 import { AppStateType } from "../../store/redux-store";
 import React from "react";
 import Users from "./Users";
 import { Preloader } from "../common/Preloader/Preloader";
-import { axiosAPI } from "../../api/api";
 
 type MapStatePropsType = {
   users: UserType[];
@@ -25,67 +21,34 @@ type MapStatePropsType = {
 };
 
 type MapDispatchPropsType = {
-  followUser: (payload: { userId: number }) => void;
-  unfollowUser: (userId: number) => void;
-  setUsers: (users: UserType[]) => void;
   setCurrentPage: (newCurrentPage: number) => void;
-  setTotalUsersCount: (totalUsersCount: number) => void;
-  toggleIsFetching: (isFetching: boolean) => void;
-  toggleFollowingInProgress: (status: boolean, userId: number) => void;
+  getUsers: (currentPage: number, pageSize: number) => void;
+  follow: (payload: { userId: number }) => void;
+  unfollow: (userId: number) => void;
 };
 
 type UsersContainerPropsType = MapDispatchPropsType & MapStatePropsType;
 
 class UsersContainer extends React.Component<UsersContainerPropsType> {
-  constructor(props: UsersContainerPropsType) {
-    super(props);
-  }
+  /* constructor(props: UsersContainerPropsType) {
+             super(props);
+           }*/
 
   componentDidMount() {
-    this.props.toggleIsFetching(true);
-
-    axiosAPI
-      .getUsers(this.props.currentPage, this.props.pageSize)
-      .then((data) => {
-        this.props.toggleIsFetching(false);
-        this.props.setUsers(data.items);
-        /* this.props.setTotalUsersCount(data.totalCount)*/
-      });
+    this.props.getUsers(this.props.currentPage, this.props.pageSize);
   }
 
   onPageChangedClickHandler = (newCurrentPage: number) => {
-    this.props.setCurrentPage(newCurrentPage);
-    this.props.toggleIsFetching(true);
-    axiosAPI.getUsers(newCurrentPage, this.props.pageSize).then((data) => {
-      this.props.toggleIsFetching(false);
-      this.props.setUsers(data.items);
-    });
+    // this.props.setCurrentPage(newCurrentPage);
+    this.props.getUsers(newCurrentPage, this.props.pageSize);
   };
 
   render() {
-    const {
-      totalUsersCount,
-      pageSize,
-      currentPage,
-      users,
-      unfollowUser,
-      followUser,
-      followingInProgress,
-      toggleFollowingInProgress,
-    } = this.props;
-
     if (this.props.isFetching) return <Preloader />;
     return (
       <Users
-        totalUsersCount={totalUsersCount}
-        pageSize={pageSize}
-        currentPage={currentPage}
-        users={users}
+        {...this.props}
         onPageChangedClickHandler={this.onPageChangedClickHandler}
-        unfollowUser={unfollowUser}
-        followUser={followUser}
-        followingInProgress={followingInProgress}
-        toggleFollowingInProgress={toggleFollowingInProgress}
       />
     );
   }
@@ -128,11 +91,8 @@ const mapStateToProps = (state: AppStateType): MapStatePropsType => {
 };*/
 
 export default connect(mapStateToProps, {
-  followUser,
-  unfollowUser,
-  setUsers,
   setCurrentPage,
-  setTotalUsersCount,
-  toggleIsFetching,
-  toggleFollowingInProgress,
+  getUsers,
+  follow,
+  unfollow,
 })(UsersContainer);

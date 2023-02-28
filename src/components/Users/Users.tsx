@@ -3,7 +3,6 @@ import style from "./Users.module.css";
 import userPhoto from "../../assets/photo.png";
 import { UserType } from "../../reducers/usersPage-reducer";
 import { NavLink } from "react-router-dom";
-import { axiosAPI } from "../../api/api";
 
 type UsersPropsType = {
   totalUsersCount: number;
@@ -12,9 +11,8 @@ type UsersPropsType = {
   users: UserType[];
   followingInProgress: number[];
   onPageChangedClickHandler: (newCurrentPage: number) => void;
-  unfollowUser: (userId: number) => void;
-  followUser: (payload: { userId: number }) => void;
-  toggleFollowingInProgress: (status: boolean, userId: number) => void;
+  follow: (payload: { userId: number }) => void;
+  unfollow: (userId: number) => void;
 };
 export const Users: React.FC<UsersPropsType> = (props) => {
   const {
@@ -24,9 +22,8 @@ export const Users: React.FC<UsersPropsType> = (props) => {
     users,
     followingInProgress,
     onPageChangedClickHandler,
-    unfollowUser,
-    followUser,
-    toggleFollowingInProgress,
+    follow,
+    unfollow,
   } = props;
 
   let pagesCount = Math.ceil(totalUsersCount / pageSize);
@@ -67,18 +64,10 @@ export const Users: React.FC<UsersPropsType> = (props) => {
                 onClick={
                   u.followed
                     ? () => {
-                        toggleFollowingInProgress(true, u.id);
-                        axiosAPI.unfollowUser(u.id).then((data) => {
-                          toggleFollowingInProgress(false, u.id);
-                          data.resultCode == 0 && unfollowUser(u.id);
-                        });
+                        unfollow(u.id);
                       }
                     : () => {
-                        toggleFollowingInProgress(true, u.id);
-                        axiosAPI.followUser(u.id).then((data) => {
-                          toggleFollowingInProgress(false, u.id);
-                          data.resultCode == 0 && followUser({ userId: u.id });
-                        });
+                        follow({ userId: u.id });
                       }
                 }
                 disabled={followingInProgress.some((id) => id === u.id)}

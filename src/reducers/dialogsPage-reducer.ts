@@ -9,8 +9,8 @@ const UPDATE_NEW_MEESSAGE_TEXT = 'UPDATE-NEW-MESSAGE-TEXT'
 */
 
 export type dialogsPageReducerACTypes =
-  | ReturnType<typeof addMessageActionCreator>
-  | ReturnType<typeof updateNewMessageTextActionCreator>;
+  | ReturnType<typeof addMessage>
+  | ReturnType<typeof updateNewMessageText>;
 
 export type MessageType = {
   id: string;
@@ -95,12 +95,12 @@ export const dialogsPageReducer = (
   }
 };
 
-export const addMessageActionCreator = () =>
+export const addMessage = () =>
   ({
     type: DialogsEvents.ADD_MESSAGE,
   } as const);
 
-export const updateNewMessageTextActionCreator = (messageText: string) =>
+export const updateNewMessageText = (messageText: string) =>
   ({
     type: DialogsEvents.UPDATE_NEW_MEESSAGE_TEXT,
     messageText,

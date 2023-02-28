@@ -1,4 +1,5 @@
 import {
+  applyMiddleware,
   combineReducers,
   compose,
   legacy_createStore as createStore,
@@ -9,6 +10,7 @@ import { dialogsPageReducer } from "../reducers/dialogsPage-reducer";
 import { sideBarReducer } from "../reducers/sideBar-reducer";
 import { usersPageReducer } from "../reducers/usersPage-reducer";
 import { authReducer } from "../reducers/auth-reducer";
+import thunk from "redux-thunk";
 
 /*type ActionsTypes = ProfilePageReducerACTypes | dialogsPageReducerACTypes;*/
 export type AppStateType = ReturnType<typeof rootReducer>;
@@ -30,7 +32,10 @@ const rootReducer = combineReducers({
   authData: authReducer,
 });
 
-export const store: StoreType = createStore(rootReducer, composeEnhancers());
+export const store: StoreType = createStore(
+  rootReducer,
+  composeEnhancers(applyMiddleware(thunk))
+);
 
 // @ts-ignore
 window.store = store;

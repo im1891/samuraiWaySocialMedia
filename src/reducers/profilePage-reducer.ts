@@ -1,5 +1,8 @@
 import { v1 } from "uuid";
 import { ProfileEvents } from "../events";
+import { usersAPI } from "../api/api";
+import { ThunkAction } from "redux-thunk";
+import { AppStateType } from "../store/redux-store";
 
 export type ProfilePageReducerACTypes =
   | ReturnType<typeof addPostActionCreator>
@@ -46,6 +49,13 @@ export type ProfilePageType = {
   userProfile: null | UserProfileType;
 };
 
+type ProfilePageThunkType = ThunkAction<
+  void,
+  AppStateType,
+  unknown,
+  ProfilePageReducerACTypes
+>;
+
 let initialState: ProfilePageType = {
   posts: [
     { id: v1(), message: "Hi, how are you?", likesCount: 15 },
@@ -89,11 +99,19 @@ export const updateNewPostTextActionCreator = (postText: string) =>
     postText,
   } as const);
 
-export const setUserProfile = (userProfile: UserProfileType) => {
+const setUserProfile = (userProfile: UserProfileType) => {
   return {
     type: ProfileEvents.SET_USER_PROFILE,
     payload: {
       userProfile,
     },
   } as const;
+};
+
+export const getUserProfile = (userId: string): ProfilePageThunkType => {
+  return (dispatch) => {
+    usersAPI.getUserProfile(userId).then((userProfile) => {
+      dispatch(setUserProfile(userProfile));
+    });
+  };
 };

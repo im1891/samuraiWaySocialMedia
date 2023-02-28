@@ -2,19 +2,20 @@ import React from "react";
 import { Profile } from "./Profile";
 import { connect } from "react-redux";
 import {
-  setUserProfile,
+  getUserProfile,
   UserProfileType,
 } from "../../reducers/profilePage-reducer";
 import { AppStateType } from "../../store/redux-store";
 import { withRouter, WithRouterProps } from "../common/withRouter/withRouter";
-import { axiosAPI } from "../../api/api";
+import { Navigate } from "react-router-dom";
 
 type MapStatePropsType = {
   userProfile: null | UserProfileType;
+  isAuth: boolean;
 };
 
 type MapDispatchPropsType = {
-  setUserProfile: (userProfile: UserProfileType) => void;
+  getUserProfile: (userId: string) => void;
 };
 
 type ProfileContainerPropsType = MapStatePropsType &
@@ -24,15 +25,14 @@ type ProfileContainerPropsType = MapStatePropsType &
 export class ProfileContainer extends React.Component<ProfileContainerPropsType> {
   componentDidMount() {
     let userId = this.props.params.userId;
-    !userId && (userId = "2");
-
-    axiosAPI.getUserProfile(userId).then((userProfile: UserProfileType) => {
-      this.props.setUserProfile(userProfile);
-    });
+    !userId && (userId = "20906");
+    this.props.getUserProfile(userId);
   }
 
   render() {
-    const { userProfile } = this.props;
+    const { userProfile, isAuth } = this.props;
+
+    if (!isAuth) return <Navigate replace to={"/login"} />;
     return (
       <div>
         <Profile userProfile={userProfile} />
@@ -46,9 +46,10 @@ const WithUrlDataContainerComponent = withRouter(ProfileContainer);
 const mapStateToProps = (state: AppStateType): MapStatePropsType => {
   return {
     userProfile: state.profilePage.userProfile,
+    isAuth: state.authData.isAuth,
   };
 };
 
-export default connect(mapStateToProps, { setUserProfile })(
+export default connect(mapStateToProps, { getUserProfile })(
   WithUrlDataContainerComponent
 );

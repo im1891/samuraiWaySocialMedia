@@ -8,9 +8,10 @@ type ProfilePropsType = {
 };
 
 export const Profile: React.FC<ProfilePropsType> = (props) => {
+  const { userProfile } = props;
   return (
     <div>
-      <ProfileInfo userProfile={props.userProfile} />
+      <ProfileInfo userProfile={userProfile} />
       <MyPostsContainer />
     </div>
   );

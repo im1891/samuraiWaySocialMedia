@@ -12,6 +12,7 @@ export enum ProfileEvents {
   ADD_POST = "ADD-POST",
   UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT",
   SET_USER_PROFILE = "SET-USER-PROFILE",
+  SET_STATUS = "SET-STATUS",
 }
 
 export enum DialogsEvents {

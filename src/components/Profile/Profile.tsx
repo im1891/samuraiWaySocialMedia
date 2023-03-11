@@ -5,13 +5,20 @@ import { UserProfileType } from "../../reducers/profilePage-reducer";
 
 type ProfilePropsType = {
   userProfile: null | UserProfileType;
+  status: string;
+  updateStatus: (status: string) => void;
 };
 
 export const Profile: React.FC<ProfilePropsType> = (props) => {
-  const { userProfile } = props;
+  const { userProfile, status, updateStatus } = props;
+
   return (
     <div>
-      <ProfileInfo userProfile={userProfile} />
+      <ProfileInfo
+        userProfile={userProfile}
+        status={status}
+        updateStatus={updateStatus}
+      />
       <MyPostsContainer />
     </div>
   );

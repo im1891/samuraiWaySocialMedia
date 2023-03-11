@@ -1,21 +1,26 @@
-import React from "react";
+import React, { ComponentType } from "react";
 import { Profile } from "./Profile";
-import { connect } from "react-redux";
 import {
+  getStatus,
   getUserProfile,
+  updateStatus,
   UserProfileType,
 } from "../../reducers/profilePage-reducer";
 import { AppStateType } from "../../store/redux-store";
 import { withRouter, WithRouterProps } from "../common/withRouter/withRouter";
-import { Navigate } from "react-router-dom";
+import { compose } from "redux";
+import { withAuthRedirect } from "../../hoc/withAuthRedirect";
+import { connect } from "react-redux";
 
 type MapStatePropsType = {
   userProfile: null | UserProfileType;
-  isAuth: boolean;
+  status: string;
 };
 
 type MapDispatchPropsType = {
   getUserProfile: (userId: string) => void;
+  getStatus: (userId: string) => void;
+  updateStatus: (status: string) => void;
 };
 
 type ProfileContainerPropsType = MapStatePropsType &
@@ -27,29 +32,37 @@ export class ProfileContainer extends React.Component<ProfileContainerPropsType>
     let userId = this.props.params.userId;
     !userId && (userId = "20906");
     this.props.getUserProfile(userId);
+    this.props.getStatus(userId);
   }
 
   render() {
-    const { userProfile, isAuth } = this.props;
+    const { userProfile, status } = this.props;
 
-    if (!isAuth) return <Navigate replace to={"/login"} />;
     return (
       <div>
-        <Profile userProfile={userProfile} />
+        <Profile
+          userProfile={userProfile}
+          status={status}
+          updateStatus={this.props.updateStatus}
+        />
       </div>
     );
   }
 }
 
-const WithUrlDataContainerComponent = withRouter(ProfileContainer);
-
 const mapStateToProps = (state: AppStateType): MapStatePropsType => {
   return {
     userProfile: state.profilePage.userProfile,
-    isAuth: state.authData.isAuth,
+    status: state.profilePage.status,
   };
 };
 
-export default connect(mapStateToProps, { getUserProfile })(
-  WithUrlDataContainerComponent
-);
+export default compose<ComponentType>(
+  connect(mapStateToProps, {
+    getUserProfile,
+    getStatus,
+    updateStatus,
+  }),
+  withRouter,
+  withAuthRedirect
+)(ProfileContainer);

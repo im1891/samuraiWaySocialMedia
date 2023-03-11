@@ -1,28 +1,22 @@
 import axios, { AxiosResponse } from "axios";
 import { UserType } from "../reducers/usersPage-reducer";
-import { UserProfileType } from "../reducers/profilePage-reducer";
 import { UserDataType } from "../reducers/auth-reducer";
+import { UserProfileType } from "../reducers/profilePage-reducer";
+import { FormInputType } from "../components/Login/LoginForm";
 
-type UsersResponseType = {
+type GetUsersResponseType = {
   error: null | string;
   items: UserType[];
   totalCount: number;
 };
 
-type UserProfileResponseType = UserProfileType;
+type GetUserProfileResponseType = UserProfileType;
 
-type AuthUserDataResponseType = {
-  data: UserDataType;
+type ResponseType<T> = {
   fieldsErrors: string[];
   messages: string[];
   resultCode: number;
-};
-
-type FollowUnfollowUserResponseType = {
-  resultCode: number;
-  messages: string[];
-  data: {};
-  fieldsErrors: string[];
+  data: T;
 };
 
 const axiosInstance = axios.create({
@@ -35,42 +29,69 @@ const axiosInstance = axios.create({
 export const usersAPI = {
   getUsers: (currentPage: number = 1, pageSize: number = 5) => {
     return axiosInstance
-      .get<UsersResponseType>(`users?page=${currentPage}&count=${pageSize}`)
-      .then((response: AxiosResponse<UsersResponseType>) => response.data);
-  },
-
-  getUserProfile: (userId: string) => {
-    return axiosInstance
-      .get<UserProfileResponseType>(`profile/${userId}`)
-      .then(
-        (response: AxiosResponse<UserProfileResponseType>) => response.data
-      );
+      .get<GetUsersResponseType>(`users?page=${currentPage}&count=${pageSize}`)
+      .then((response: AxiosResponse<GetUsersResponseType>) => response.data);
   },
 
   followUser: (userId: number) => {
     return axiosInstance
-      .post<FollowUnfollowUserResponseType>(`follow/${userId}`)
-      .then((response: AxiosResponse<FollowUnfollowUserResponseType>) => {
+      .post<ResponseType<{}>>(`follow/${userId}`)
+      .then((response: AxiosResponse<ResponseType<{}>>) => {
         return response.data;
       });
   },
 
   unfollowUser: (userId: number) => {
     return axiosInstance
-      .delete<FollowUnfollowUserResponseType>(`follow/${userId}`)
+      .delete<ResponseType<{}>>(`follow/${userId}`)
+      .then((response: AxiosResponse<ResponseType<{}>>) => response.data);
+  },
+
+  getUserProfile: (userId: string) => {
+    console.warn("Obsolete method. Use profileAPI");
+    return profileAPI.getUserProfile(userId);
+  },
+};
+
+export const profileAPI = {
+  getUserProfile: (userId: string) => {
+    return axiosInstance
+      .get<GetUserProfileResponseType>(`profile/${userId}`)
       .then(
-        (response: AxiosResponse<FollowUnfollowUserResponseType>) =>
-          response.data
+        (response: AxiosResponse<GetUserProfileResponseType>) => response.data
       );
+  },
+  getStatus: (userId: number) => {
+    return axiosInstance
+      .get<string>(`profile/status/${userId}`)
+      .then((res: AxiosResponse<string>) => res.data);
+  },
+
+  updateStatus: (status: string) => {
+    return axiosInstance
+      .put<ResponseType<{}>>("profile/status", { status })
+      .then((res: AxiosResponse<ResponseType<{}>>) => res.data);
   },
 };
 
 export const authAPI = {
   me: () => {
     return axiosInstance
-      .get<AuthUserDataResponseType>("auth/me")
+      .get<ResponseType<UserDataType>>("auth/me")
       .then(
-        (response: AxiosResponse<AuthUserDataResponseType>) => response.data
+        (response: AxiosResponse<ResponseType<UserDataType>>) => response.data
       );
+  },
+
+  login: (data: FormInputType) => {
+    return axiosInstance
+      .post("auth/login", {
+        email: data.login,
+        password: data.password,
+        rememberMe: data.rememberMe,
+      })
+      .then((res: AxiosResponse<ResponseType<{ userId: number }>>) => {
+        return res.data;
+      });
   },
 };

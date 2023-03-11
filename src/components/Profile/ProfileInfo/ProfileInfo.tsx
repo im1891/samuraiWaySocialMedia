@@ -3,29 +3,33 @@ import style from "./ProfileInfo.module.css";
 import { UserProfileType } from "../../../reducers/profilePage-reducer";
 import { Preloader } from "../../common/Preloader/Preloader";
 import userPhoto from "../../../assets/photo.png";
+import { ProfileStatus } from "./ProfileStatus";
 
 type ProfileInfoPropsType = {
   userProfile: null | UserProfileType;
+  status: string;
+  updateStatus: (status: string) => void;
 };
 
 export const ProfileInfo: React.FC<ProfileInfoPropsType> = (props) => {
-  const { userProfile } = props;
+  const { userProfile, status, updateStatus } = props;
   if (!userProfile) {
     return <Preloader />;
   }
   return (
     <div>
-      <div>
+      {/* <div>
         <img
           src="https://images.ctfassets.net/hrltx12pl8hq/7yQR5uJhwEkRfjwMFJ7bUK/dc52a0913e8ff8b5c276177890eb0129/offset_comp_772626-opt.jpg?fit=fill&w=800&h=300"
           alt="banner"
         />
-      </div>
+      </div>*/}
       <div className={style.descriptionBlock}>
         <img
           src={userProfile.photos.small ? userProfile.photos.small : userPhoto}
           alt="userPhoto"
         />
+        <ProfileStatus status={status} updateStatus={updateStatus} />
         <div>Name: {userProfile.fullName}</div>
         <div>User id: {userProfile.userId}</div>
         <div>

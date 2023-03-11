@@ -2,6 +2,7 @@ import { AuthEvents } from "../events";
 import { authAPI } from "../api/api";
 import { ThunkAction } from "redux-thunk";
 import { AppStateType } from "../store/redux-store";
+import { FormInputType } from "../components/Login/LoginForm";
 
 type SetUserDataType = ReturnType<typeof setAuthUserData>;
 type AuthReducerACTypes = SetUserDataType;
@@ -17,7 +18,7 @@ export type AuthStateType = {
   isFetching: boolean;
 };
 
-type AuthThunkType = ThunkAction<
+export type AuthThunkType = ThunkAction<
   void,
   AppStateType,
   unknown,
@@ -60,3 +61,9 @@ export const getAuthUserData = (): AuthThunkType => (dispatch) =>
   authAPI.me().then((userData) => {
     userData.resultCode === 0 && dispatch(setAuthUserData(userData.data));
   });
+
+export const login = (data: FormInputType): AuthThunkType => {
+  return (dispatch) => {
+    authAPI.login(data).then((res) => console.log(res.resultCode));
+  };
+};

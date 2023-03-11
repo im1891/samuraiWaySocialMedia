@@ -10,7 +10,7 @@ import { dialogsPageReducer } from "../reducers/dialogsPage-reducer";
 import { sideBarReducer } from "../reducers/sideBar-reducer";
 import { usersPageReducer } from "../reducers/usersPage-reducer";
 import { authReducer } from "../reducers/auth-reducer";
-import thunk from "redux-thunk";
+import thunkMiddleware from "redux-thunk";
 
 /*type ActionsTypes = ProfilePageReducerACTypes | dialogsPageReducerACTypes;*/
 export type AppStateType = ReturnType<typeof rootReducer>;
@@ -34,7 +34,7 @@ const rootReducer = combineReducers({
 
 export const store: StoreType = createStore(
   rootReducer,
-  composeEnhancers(applyMiddleware(thunk))
+  composeEnhancers(applyMiddleware(thunkMiddleware))
 );
 
 // @ts-ignore

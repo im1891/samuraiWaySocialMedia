@@ -1,13 +1,14 @@
 import { v1 } from "uuid";
 import { ProfileEvents } from "../events";
-import { usersAPI } from "../api/api";
+import { profileAPI, usersAPI } from "../api/api";
 import { ThunkAction } from "redux-thunk";
 import { AppStateType } from "../store/redux-store";
 
 export type ProfilePageReducerACTypes =
   | ReturnType<typeof addPostActionCreator>
   | ReturnType<typeof updateNewPostTextActionCreator>
-  | ReturnType<typeof setUserProfile>;
+  | ReturnType<typeof setUserProfile>
+  | ReturnType<typeof setStatus>;
 
 /*
 const ADD_POST = "ADD-POST";
@@ -47,6 +48,7 @@ export type ProfilePageType = {
   posts: PostType[];
   postMessage: string;
   userProfile: null | UserProfileType;
+  status: string;
 };
 
 type ProfilePageThunkType = ThunkAction<
@@ -63,6 +65,7 @@ let initialState: ProfilePageType = {
   ],
   postMessage: "",
   userProfile: null,
+  status: "",
 };
 
 export const profilePageReducer = (
@@ -83,6 +86,8 @@ export const profilePageReducer = (
       return state;
     case ProfileEvents.SET_USER_PROFILE:
       return { ...state, userProfile: action.payload.userProfile };
+    case ProfileEvents.SET_STATUS:
+      return { ...state, status: action.payload.status };
     default:
       return state;
   }
@@ -108,10 +113,36 @@ const setUserProfile = (userProfile: UserProfileType) => {
   } as const;
 };
 
+const setStatus = (status: string) =>
+  ({
+    type: ProfileEvents.SET_STATUS,
+    payload: {
+      status,
+    },
+  } as const);
+
 export const getUserProfile = (userId: string): ProfilePageThunkType => {
   return (dispatch) => {
     usersAPI.getUserProfile(userId).then((userProfile) => {
       dispatch(setUserProfile(userProfile));
+    });
+  };
+};
+
+export const getStatus = (userId: number): ProfilePageThunkType => {
+  return (dispatch) => {
+    profileAPI.getStatus(userId).then((status) => {
+      status === null
+        ? dispatch(setStatus("Пока без статуса"))
+        : dispatch(setStatus(status));
+    });
+  };
+};
+
+export const updateStatus = (status: string): ProfilePageThunkType => {
+  return (dispatch) => {
+    profileAPI.updateStatus(status).then((res) => {
+      res.resultCode === 0 && dispatch(setStatus(status));
     });
   };
 };

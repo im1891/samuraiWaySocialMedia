@@ -2,7 +2,6 @@ import axios, { AxiosResponse } from "axios";
 import { UserType } from "../reducers/usersPage-reducer";
 import { UserDataType } from "../reducers/auth-reducer";
 import { UserProfileType } from "../reducers/profilePage-reducer";
-import { FormInputType } from "../components/Login/LoginForm";
 
 type GetUsersResponseType = {
   error: null | string;
@@ -12,7 +11,7 @@ type GetUsersResponseType = {
 
 type GetUserProfileResponseType = UserProfileType;
 
-type ResponseType<T> = {
+type ResponseType<T = {}> = {
   fieldsErrors: string[];
   messages: string[];
   resultCode: number;
@@ -47,14 +46,14 @@ export const usersAPI = {
       .then((response: AxiosResponse<ResponseType<{}>>) => response.data);
   },
 
-  getUserProfile: (userId: string) => {
+  getUserProfile: (userId: number) => {
     console.warn("Obsolete method. Use profileAPI");
     return profileAPI.getUserProfile(userId);
   },
 };
 
 export const profileAPI = {
-  getUserProfile: (userId: string) => {
+  getUserProfile: (userId: number) => {
     return axiosInstance
       .get<GetUserProfileResponseType>(`profile/${userId}`)
       .then(
@@ -83,15 +82,17 @@ export const authAPI = {
       );
   },
 
-  login: (data: FormInputType) => {
+  login: (email: string, password: string, rememberMe: boolean = false) => {
     return axiosInstance
-      .post("auth/login", {
-        email: data.login,
-        password: data.password,
-        rememberMe: data.rememberMe,
-      })
+      .post("auth/login", { email, password, rememberMe })
       .then((res: AxiosResponse<ResponseType<{ userId: number }>>) => {
         return res.data;
       });
+  },
+
+  logout: () => {
+    return axiosInstance
+      .delete("auth/login")
+      .then((res: AxiosResponse<ResponseType>) => res.data);
   },
 };

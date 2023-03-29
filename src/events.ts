@@ -17,7 +17,6 @@ export enum ProfileEvents {
 
 export enum DialogsEvents {
   ADD_MESSAGE = "ADD-MESSAGE",
-  UPDATE_NEW_MEESSAGE_TEXT = "UPDATE-NEW-MESSAGE-TEXT",
 }
 
 export enum AuthEvents {

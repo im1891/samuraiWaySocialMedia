@@ -1,12 +1,12 @@
-import React, { ChangeEvent, KeyboardEvent } from "react";
+import React from "react";
 import style from "./Dialogs.module.css";
 import { Message } from "./Message/Message";
 import { DialogItem } from "./DialogItem/DialogItem";
 import { DialogsPropsType } from "./DialogsContainer";
+import { AddMessageForm } from "./AddMessageForm";
 
 export const Dialogs: React.FC<DialogsPropsType> = (props) => {
-  const { dialogs, messages, messageText, updateNewMessageText, addMessage } =
-    props;
+  const { dialogs, messages, addMessage } = props;
 
   let dialogsElements = dialogs.map((d) => (
     <DialogItem key={d.id} name={d.name} id={d.id} photoURL={d.photoURL} />
@@ -16,31 +16,15 @@ export const Dialogs: React.FC<DialogsPropsType> = (props) => {
     <Message key={m.id} message={m.message} />
   ));
 
-  const changeMessageTextHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    let messageText = e.currentTarget.value;
-    updateNewMessageText(messageText);
+  const addNewMessage = (message: string) => {
+    addMessage(message);
   };
-
-  const onEnterPressHandler = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-    e.key === "Enter" && addMessage();
-  };
-
   return (
     <div className={style.dialogs}>
       <div className={style.dialogsItems}>{dialogsElements}</div>
       <div className={style.messages}>
         {messagesElements}
-
-        <div>
-          <textarea
-            onChange={changeMessageTextHandler}
-            value={messageText}
-            onKeyDown={onEnterPressHandler}
-          ></textarea>
-        </div>
-        <div>
-          <button onClick={addMessage}>Add</button>
-        </div>
+        <AddMessageForm addNewMessage={addNewMessage} />
       </div>
     </div>
   );

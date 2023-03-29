@@ -1,16 +1,8 @@
 import { v1 } from "uuid";
-
 import { DialogsEvents } from "../events";
 import { ProfilePageReducerACTypes } from "./profilePage-reducer";
 
-/*
-const ADD_MESSAGE = 'ADD-MESSAGE'
-const UPDATE_NEW_MEESSAGE_TEXT = 'UPDATE-NEW-MESSAGE-TEXT'
-*/
-
-export type dialogsPageReducerACTypes =
-  | ReturnType<typeof addMessage>
-  | ReturnType<typeof updateNewMessageText>;
+export type DialogsPageReducerACTypes = ReturnType<typeof addMessage>;
 
 export type MessageType = {
   id: string;
@@ -71,37 +63,26 @@ let initialState = {
     { id: v1(), message: "How are you?" },
     { id: v1(), message: "yo" },
   ] as MessageType[],
-  messageText: "",
 };
 
 export const dialogsPageReducer = (
   state: DialogsPageType = initialState,
-  action: dialogsPageReducerACTypes | ProfilePageReducerACTypes
+  action: DialogsPageReducerACTypes | ProfilePageReducerACTypes
 ): DialogsPageType => {
   switch (action.type) {
     case DialogsEvents.ADD_MESSAGE:
-      let newMessage: MessageType = { id: v1(), message: state.messageText };
+      let newMessage: MessageType = { id: v1(), message: action.messageText };
       return {
         ...state,
         messages: [...state.messages, newMessage],
-        messageText: "",
       };
-
-    case DialogsEvents.UPDATE_NEW_MEESSAGE_TEXT:
-      return { ...state, messageText: action.messageText };
-
     default:
       return state;
   }
 };
 
-export const addMessage = () =>
+export const addMessage = (messageText: string) =>
   ({
     type: DialogsEvents.ADD_MESSAGE,
-  } as const);
-
-export const updateNewMessageText = (messageText: string) =>
-  ({
-    type: DialogsEvents.UPDATE_NEW_MEESSAGE_TEXT,
     messageText,
   } as const);

@@ -1,5 +1,5 @@
 import { ProfilePageReducerACTypes } from "./profilePage-reducer";
-import { dialogsPageReducerACTypes, DialogType } from "./dialogsPage-reducer";
+import { DialogsPageReducerACTypes, DialogType } from "./dialogsPage-reducer";
 import { v1 } from "uuid";
 
 export type SideBarType = {
@@ -30,7 +30,7 @@ let initialState: SideBarType = {
 };
 export const sideBarReducer = (
   state: SideBarType = initialState,
-  action: ProfilePageReducerACTypes | dialogsPageReducerACTypes
+  action: ProfilePageReducerACTypes | DialogsPageReducerACTypes
 ): SideBarType => {
   return state;
 };

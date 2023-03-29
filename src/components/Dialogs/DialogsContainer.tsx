@@ -3,7 +3,6 @@ import {
   addMessage,
   DialogType,
   MessageType,
-  updateNewMessageText,
 } from "../../reducers/dialogsPage-reducer";
 import { AppStateType } from "../../store/redux-store";
 import { connect } from "react-redux";
@@ -41,27 +40,22 @@ export const DialogsContainer = () => {
 type MapStatePropsType = {
   messages: MessageType[];
   dialogs: DialogType[];
-  messageText: string;
 };
+
 type MapDispatchPropsType = {
-  updateNewMessageText: (messageText: string) => void;
-  addMessage: () => void;
+  addMessage: (messageText: string) => void;
 };
 
 export type DialogsPropsType = MapDispatchPropsType & MapStatePropsType;
-// в state передаем весь state, а не отдельную ветку
+
 const mapStateToProps = (state: AppStateType): MapStatePropsType => {
   return {
     messages: state.dialogsPage.messages,
     dialogs: state.dialogsPage.dialogs,
-    messageText: state.dialogsPage.messageText,
   };
 };
 
 export default compose<ComponentType>(
-  withAuthRedirect,
-  connect(mapStateToProps, {
-    addMessage,
-    updateNewMessageText,
-  })
+  connect(mapStateToProps, { addMessage }),
+  withAuthRedirect
 )(Dialogs);

@@ -13,9 +13,8 @@ type ProfileInfoPropsType = {
 
 export const ProfileInfo: React.FC<ProfileInfoPropsType> = (props) => {
   const { userProfile, status, updateStatus } = props;
-  if (!userProfile) {
-    return <Preloader />;
-  }
+
+  if (!userProfile) return <Preloader />;
   return (
     <div>
       {/* <div>

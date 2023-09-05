@@ -1,44 +1,37 @@
-import React, { ComponentType } from "react";
-import { Header } from "./Header";
-import { getAuthUserData, logout } from "../../reducers/auth-reducer";
-import { connect } from "react-redux";
-import { AppStateType } from "../../store/redux-store";
-import { compose } from "redux";
+import React, { ComponentType } from 'react'
+import { Header } from './Header'
+import { logout } from 'reducers/auth-reducer'
+import { connect } from 'react-redux'
+import { AppStateType } from 'store/store'
+import { compose } from 'redux'
+import { selectIsAuth, selectUserLogin } from 'selectors'
 
 type MapStatePropsType = {
-  isAuth: boolean;
-  userLogin: null | string;
-};
+	isAuth: boolean
+	userLogin: null | string
+}
 
 type MapDispatchPropsType = {
-  getAuthUserData: () => void;
-  logout: () => void;
-};
+	logout: () => void
+}
 
-type HeaderContainerPropsType = MapStatePropsType & MapDispatchPropsType;
+type HeaderContainerPropsType = MapStatePropsType & MapDispatchPropsType
 
 class HeaderContainer extends React.Component<HeaderContainerPropsType> {
-  componentDidMount() {
-    this.props.getAuthUserData();
-  }
-
-  render() {
-    const { getAuthUserData, ...otherProps } = this.props;
-    return (
-      <>
-        <Header {...otherProps} />
-      </>
-    );
-  }
+	render() {
+		return (
+			<>
+				<Header {...this.props} />
+			</>
+		)
+	}
 }
 
 const mapStateToProps = (state: AppStateType): MapStatePropsType => {
-  return {
-    isAuth: state.authData.isAuth,
-    userLogin: state.authData.userData.login,
-  };
-};
+	return {
+		isAuth: selectIsAuth(state),
+		userLogin: selectUserLogin(state)
+	}
+}
 
-export default compose<ComponentType>(
-  connect(mapStateToProps, { getAuthUserData, logout })
-)(HeaderContainer);
+export default compose<ComponentType>(connect(mapStateToProps, { logout }))(HeaderContainer)

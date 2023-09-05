@@ -1,15 +1,14 @@
 .header {
-    grid-area: h;
-    display: flex;
-    justify-content: space-between;
-    background-color: burlywood;
+	grid-area: h;
+	display: flex;
+	justify-content: space-between;
+	background-color: burlywood;
 }
 
 .header img {
-    height: 50px;
-
+	height: 50px;
 }
 
 .loginBlock {
-margin-right: 10px;
+	margin-right: 10px;
 }

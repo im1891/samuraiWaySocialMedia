@@ -1,60 +1,57 @@
 .users {
-    display: inline-flex;
-    flex-direction: column;
-    gap: 10px;
-    margin: 10px;
+	display: inline-flex;
+	flex-direction: column;
+	gap: 10px;
+	margin: 10px;
 }
 
 .user {
-    display: inline-flex;
-    flex-direction: row;
-    gap: 15px;
-    justify-content: flex-start;
+	display: inline-flex;
+	flex-direction: row;
+	gap: 15px;
+	justify-content: flex-start;
 }
 
 .user button {
-    width: 70px;
-    border-radius: 10px;
-    cursor: pointer;
+	width: 70px;
+	border-radius: 10px;
+	cursor: pointer;
 }
 
 .user button:active {
-    background-color: white;
+	background-color: white;
 }
 
-
 .userInfo {
-    width: 225px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    border: 2px solid black;
-    border-radius: 10px;
-    align-items: center;
+	width: 225px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	border: 2px solid black;
+	border-radius: 10px;
+	align-items: center;
 }
 
 .location {
-    text-align: right;
+	text-align: right;
 }
 
 .userPhoto {
-    width: 65px;
-    height: 60px;
-    border-radius: 100%;
+	width: 65px;
+	height: 60px;
+	border-radius: 100%;
 }
 
 .pages {
-
 }
 
 .page {
-    display: inline-block;
-    cursor: pointer;
-    padding: 2px;
+	display: inline-block;
+	cursor: pointer;
+	padding: 2px;
 }
 
 .selectedPage {
-    font-weight: bold;
-    border-bottom: 2px solid black;
+	font-weight: bold;
+	border-bottom: 2px solid black;
 }
-

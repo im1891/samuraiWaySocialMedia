@@ -1,9 +1,10 @@
-import { MyPosts } from "./MyPosts";
-import React, { ComponentType } from "react";
-import { addPost, PostType } from "../../../reducers/profilePage-reducer";
-import { connect } from "react-redux";
-import { AppStateType } from "../../../store/redux-store";
-import { compose } from "redux";
+import { MyPosts } from './MyPosts'
+import { ComponentType } from 'react'
+import { addPost, PostType } from 'reducers/profilePage-reducer'
+import { connect } from 'react-redux'
+import { AppStateType } from 'store/store'
+import { compose } from 'redux'
+import { selectPosts } from 'selectors'
 
 /*
 export const MyPostsContainer = () => {
@@ -30,21 +31,19 @@ export const MyPostsContainer = () => {
 }*/
 
 type MapStatePropsType = {
-  posts: PostType[];
-};
+	posts: PostType[]
+}
 
 type MapDispatchPropsType = {
-  addPost: (postMessage: string) => void;
-};
+	addPost: (postMessage: string) => void
+}
 
-export type MyPostsPropsType = MapStatePropsType & MapDispatchPropsType;
+export type MyPostsPropsType = MapStatePropsType & MapDispatchPropsType
 
 const mapStateToProps = (state: AppStateType): MapStatePropsType => {
-  return {
-    posts: state.profilePage.posts,
-  };
-};
+	return {
+		posts: selectPosts(state)
+	}
+}
 
-export default compose<ComponentType>(connect(mapStateToProps, { addPost }))(
-  MyPosts
-);
+export default compose<ComponentType>(connect(mapStateToProps, { addPost }))(MyPosts)

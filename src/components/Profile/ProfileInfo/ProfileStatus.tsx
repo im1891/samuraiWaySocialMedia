@@ -21,7 +21,13 @@ export class ProfileStatus extends React.Component<ProfileStatusPropsType> {
 
 	deactivateEditMode = () => {
 		this.setState({ editMode: false })
-		this.props.updateStatus(this.state.status)
+
+		if (this.state.status !== this.props.status) {
+			if (!this.state.status.length) {
+				this.setState({ status: 'Write status' })
+			}
+			this.props.updateStatus(this.state.status.length ? this.state.status : 'Write status')
+		}
 	}
 
 	onStatusChange = (e: ChangeEvent<HTMLInputElement>) => {

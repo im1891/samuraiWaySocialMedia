@@ -3,7 +3,7 @@ import style from './ProfileInfo.module.css'
 import { UserProfileType } from 'reducers/profilePage-reducer'
 import { Preloader } from '../../common/Preloader/Preloader'
 import userPhoto from '../../../assets/photo.png'
-import { ProfileStatus } from './ProfileStatus'
+import { ProfileStatusWithHooks } from './ProfileStatusWithHooks'
 
 type ProfileInfoPropsType = {
 	userProfile: null | UserProfileType
@@ -25,7 +25,7 @@ export const ProfileInfo: React.FC<ProfileInfoPropsType> = (props) => {
       </div>*/}
 			<div className={style.descriptionBlock}>
 				<img src={userProfile.photos.small ? userProfile.photos.small : userPhoto} alt="userPhoto" />
-				<ProfileStatus status={status} updateStatus={updateStatus} />
+				<ProfileStatusWithHooks status={status} updateStatus={updateStatus} />
 				<div>Name: {userProfile.fullName}</div>
 				<div>User id: {userProfile.userId}</div>
 				<div>About me: {userProfile.aboutMe ? userProfile.aboutMe : `Hello, I'm ${userProfile.fullName}`}</div>
